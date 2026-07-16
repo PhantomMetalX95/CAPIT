@@ -47,9 +47,12 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Failed to generate Safaricom Access Token. Check your environment variables." });
     }
 
-    // 4. Initiate STK Push[cite: 1]
-    const timestamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, 14); //[cite: 1]
-    const password = Buffer.from('174379' + 'bfb279f9aa9bdb71556e456c66657805178385a438781682701c379a613271c6' + timestamp).toString('base64'); //[cite: 1]
+    // 2. Initiate STK Push
+  const timestamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, 14);
+  
+  // FIXED: Using the correct, official Safaricom sandbox passkey string
+  const sandboxPasskey = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
+  const password = Buffer.from('174379' + sandboxPasskey + timestamp).toString('base64');
 
     const stkResponse = await fetch('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', {
       method: 'POST', //[cite: 1]
