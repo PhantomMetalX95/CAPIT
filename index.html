@@ -361,6 +361,76 @@
 
 
   <!-- ========================================== -->
+  <!-- 8. LUXURY SECURE CHECKOUT MODAL            -->
+  <!-- ========================================== -->
+  <div id="checkoutOverlay" class="fixed inset-0 bg-zinc-950/60 z-50 flex items-center justify-center p-4 md:p-6 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-sm">
+    <div onclick="closeCheckoutModal()" class="absolute inset-0"></div>
+    
+    <div class="relative w-full max-w-md bg-[#FAF9F6] border border-luxury shadow-2xl rounded-sm p-6 md:p-8 scale-95 transition-transform duration-300" id="checkoutModal">
+      <!-- Close Button -->
+      <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 z-10 p-2 text-zinc-500 hover:text-[#B4975A] transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+
+      <div>
+        <span class="text-[9px] font-bold uppercase tracking-[0.2em] text-[#B4975A]">Maison Checkout</span>
+        <h2 class="text-xl md:text-2xl font-light tracking-[0.1em] text-zinc-900 mt-2 uppercase luxury-serif">CAP IT</h2>
+        
+        <hr class="my-4 border-luxury">
+
+        <!-- Dynamic Order Summary Box -->
+        <div class="bg-zinc-100 p-4 border border-luxury mb-6">
+          <h4 class="text-[9px] font-bold uppercase tracking-[0.15em] text-zinc-400 mb-2">Order Review</h4>
+          <div class="flex justify-between items-center text-xs text-zinc-700">
+            <span>Selections Count:</span>
+            <span id="checkoutQty" class="font-semibold text-zinc-900">0</span>
+          </div>
+          <div class="flex justify-between items-center text-xs text-zinc-700 mt-1">
+            <span>Atelier Est. Total:</span>
+            <span id="checkoutTotal" class="font-bold text-[#B4975A]">KSh 0.00</span>
+          </div>
+        </div>
+
+        <form id="checkoutForm" class="space-y-4">
+          <!-- Email Field -->
+          <div>
+            <label for="checkoutEmail" class="block text-[9px] font-bold uppercase tracking-[0.15em] text-zinc-400 mb-1.5">Email (For Invoice Receipt)</label>
+            <input 
+              type="email" 
+              id="checkoutEmail" 
+              required
+              placeholder="curator@maison.com" 
+              class="w-full bg-transparent border-b border-zinc-300 py-2 text-xs tracking-wider focus:outline-none focus:border-[#B4975A] transition placeholder-zinc-300"
+            >
+          </div>
+
+          <!-- Phone Number Field -->
+          <div>
+            <label for="checkoutPhone" class="block text-[9px] font-bold uppercase tracking-[0.15em] text-zinc-400 mb-1.5">M-Pesa Mobile Number</label>
+            <input 
+              type="tel" 
+              id="checkoutPhone" 
+              required
+              placeholder="e.g. 0712345678" 
+              class="w-full bg-transparent border-b border-zinc-300 py-2 text-xs tracking-wider focus:outline-none focus:border-[#B4975A] transition placeholder-zinc-300"
+            >
+            <p class="text-[9px] text-zinc-400 mt-1 italic font-light">Enter M-Pesa registered number.</p>
+          </div>
+
+          <!-- Status Alerts -->
+          <div id="checkoutStatus" class="hidden text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border"></div>
+
+          <!-- Submit Action -->
+          <button type="submit" id="checkoutSubmitBtn" class="w-full bg-zinc-900 text-white py-4 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-[#B4975A] transition-all duration-300 mt-4">
+            Authorize M-Pesa Prompt
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
   <!-- 7. JAVASCRIPT SYSTEM ENGINE (WITH SANITY)  -->
   <!-- ========================================== -->
   <script>
@@ -379,12 +449,18 @@
     let currentMaison = 'hub';
     let cartCapIt = [];
     let cartBeads = [];
+    let activeCartBrand = ''; // Tracks the brand associated with the active cart drawer securely
     
     let activeCategoryCapIt = 'all';
     let activeCategoryBeads = 'all';
     
     let searchValCapIt = '';
     let searchValBeads = '';
+
+    // Active checkout order tracking parameters
+    let activeCheckoutTotal = 0;
+    let activeCheckoutQty = 0;
+    let activeCheckoutBrand = '';
 
     // Specialized Local Currency Formatter (Kenyan Shillings KSh)
     function formatKES(amount) {
@@ -875,6 +951,8 @@
       const overlay = document.getElementById('cartOverlay');
       const drawer = document.getElementById('cartDrawer');
       if (open) {
+        // Securely store the active brand to avoid reading CSS-transformed uppercase text
+        activeCartBrand = brand; 
         document.getElementById('cartMaisonName').innerText = brand === 'capit' ? 'Atelier Cap It' : 'Beads & Beyond';
         overlay.classList.remove('invisible');
         setTimeout(() => {
@@ -1011,29 +1089,150 @@
     // H. SECURE CHECKOUT TRANSACTION ENGINE
     // =======================================================
     function triggerCheckout() {
-      const isCapitOpen = document.getElementById('cartMaisonName').innerText.includes('Cap It');
-      const brand = isCapitOpen ? 'capit' : 'beads';
-      const cart = isCapitOpen ? cartCapIt : cartBeads;
+      // Safely refer to our tracked state variable to circumvent uppercase transforms
+      const brand = activeCartBrand; 
+      const cart = brand === 'capit' ? cartCapIt : cartBeads;
       
       if (cart.length === 0) {
         alert("Your selection is currently empty.");
         return;
       }
       
-      const total = cart.reduce((sum, i) => sum + ((i.price || 0) * i.quantity), 0);
-      
-      alert(`Thank you for choosing the Maison.\n\nYour order has been submitted directly to the Atelier queue.\nEstimated Value: ${formatKES(total)}\n\nA personal concierge will contact you shortly to arrange secure shipping.`);
-      
-      // Clear active brand-specific cart
-      if (isCapitOpen) {
-        cartCapIt = [];
-      } else {
-        cartBeads = [];
-      }
-      
-      updateCartUI(brand);
+      activeCheckoutBrand = brand;
+      activeCheckoutQty = cart.reduce((sum, i) => sum + i.quantity, 0);
+      activeCheckoutTotal = cart.reduce((sum, i) => sum + ((i.price || 0) * i.quantity), 0);
+
+      // Close Cart Drawer
       toggleCart(false);
+
+      // Populate Checkout Details
+      document.getElementById('checkoutQty').innerText = activeCheckoutQty;
+      document.getElementById('checkoutTotal').innerText = formatKES(activeCheckoutTotal);
+      
+      // Clear Status Alerts
+      const statusBox = document.getElementById('checkoutStatus');
+      statusBox.classList.add('hidden');
+      statusBox.className = "hidden text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border";
+      
+      // Reset Submit Button Status
+      const submitBtn = document.getElementById('checkoutSubmitBtn');
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Authorize M-Pesa Prompt";
+      submitBtn.className = "w-full bg-zinc-900 text-white py-4 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-[#B4975A] transition-all duration-300 mt-4";
+
+      // Open Checkout Overlay Modal
+      openCheckoutModal();
     }
+
+    function openCheckoutModal() {
+      const overlay = document.getElementById('checkoutOverlay');
+      const modal = document.getElementById('checkoutModal');
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.remove('scale-95');
+      modal.classList.add('scale-100');
+    }
+
+    function closeCheckoutModal() {
+      const overlay = document.getElementById('checkoutOverlay');
+      const modal = document.getElementById('checkoutModal');
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      modal.classList.remove('scale-100');
+      modal.classList.add('scale-95');
+    }
+
+    // Handle checkout submission endpoint call
+    document.addEventListener('DOMContentLoaded', () => {
+      const checkoutForm = document.getElementById('checkoutForm');
+      if (checkoutForm) {
+        checkoutForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById('checkoutEmail').value.trim();
+          let phone = document.getElementById('checkoutPhone').value.trim();
+          const submitBtn = document.getElementById('checkoutSubmitBtn');
+          const statusBox = document.getElementById('checkoutStatus');
+
+          // Normalize and format the mobile phone number (to format: 254XXXXXXXXX)
+          phone = phone.replace(/[^0-9+]/g, ''); // remove non-numeric values (keeping '+')
+          if (phone.startsWith('+')) {
+            phone = phone.substring(1);
+          }
+          if (phone.startsWith('0')) {
+            phone = '254' + phone.substring(1);
+          } else if (phone.startsWith('7') || phone.startsWith('1')) {
+            phone = '254' + phone;
+          }
+
+          // Safe Regex to ensure standard Safaricom Kenyan mobile format (12 characters starting with 254)
+          if (!/^254(7|1)\d{8}$/.test(phone)) {
+            statusBox.innerText = "Invalid M-Pesa Number Format.";
+            statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-red-200 bg-red-50 text-red-600 block";
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.innerText = "Awaiting Connection...";
+          submitBtn.className = "w-full bg-zinc-400 text-white py-4 text-xs font-semibold uppercase tracking-[0.25em] cursor-not-allowed mt-4";
+
+          statusBox.innerText = "Awaiting Safaricom Secure Gateway...";
+          statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-amber-200 bg-amber-50/50 text-amber-700 block animate-pulse";
+
+          try {
+            // Initiating Secure POST Call to the dynamic Vercel /api/stkpush endpoint
+            const response = await fetch('/api/stkpush', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                amount: Math.round(activeCheckoutTotal).toString(),
+                phone: phone,
+                email: email
+              })
+            });
+
+            if (!response.ok) {
+              const errData = await response.json().catch(() => ({}));
+              throw new Error(errData.message || errData.errorMessage || "System failed to connect with payment gateway.");
+            }
+
+            const data = await response.json();
+
+            // M-Pesa STK Push accepted code is usually '0' or success flag
+            if (data.ResponseCode === "0" || data.success === true) {
+              statusBox.innerText = "Prompt Sent! Please enter your PIN on your phone.";
+              statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-emerald-200 bg-emerald-50 text-emerald-700 block";
+              
+              // Empty the brand-specific cart variables upon prompt validation
+              if (activeCheckoutBrand === 'capit') {
+                cartCapIt = [];
+              } else {
+                cartBeads = [];
+              }
+              updateCartUI(activeCheckoutBrand);
+
+              // Clear active cart overlay and close modal view cleanly
+              setTimeout(() => {
+                closeCheckoutModal();
+                checkoutForm.reset();
+              }, 5000);
+
+            } else {
+              throw new Error(data.CustomerMessage || data.errorMessage || "Safaricom rejected payment prompt initiation.");
+            }
+
+          } catch (error) {
+            console.error("Payment Handshake Interrupted:", error);
+            statusBox.innerText = error.message || "Payment request failed.";
+            statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-red-200 bg-red-50 text-red-600 block";
+            
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Authorize M-Pesa Prompt";
+            submitBtn.className = "w-full bg-zinc-900 text-white py-4 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-[#B4975A] transition-all duration-300 mt-4";
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>
