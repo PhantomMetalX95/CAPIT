@@ -69,8 +69,8 @@ export default async function handler(req, res) {
         PartyA: phone, //[cite: 1]
         PartyB: "174379", //[cite: 1]
         PhoneNumber: phone, //[cite: 1]
-        CallBackURL: "https://your-site.vercel.app/api/callback", //[cite: 1]
-        AccountReference: "MaisonAtelier", //[cite: 1]
+        CallBackURL: "https://capit-five.vercel.app/", //[cite: 1]
+        AccountReference: "CAP_IT", //[cite: 1]
         TransactionDesc: "Payment for order" //[cite: 1]
       })
     });
