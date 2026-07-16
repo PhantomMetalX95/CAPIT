@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE MAISON | Cap It & Beads & Beyond</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Editorial Serif and Minimalist Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #FAF9F6; /* Warm Alabaster White */
+    }
+    h1, h2, h3, .luxury-serif {
+      font-family: 'Cinzel', serif;
+    }
+    
+    /* Fine-line editorial borders */
+    .border-luxury {
+      border-color: #E6E1D8;
+    }
+
+    /* Glassmorphic Navigation Blur */
+    .glass-header {
+      background: rgba(250, 249, 246, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(180, 151, 90, 0.12);
+    }
+    
+    /* Custom Luxury Slim Scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAF9F6;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #B4975A;
+    }
+
+    /* Interactive Split Screen Hover Controls */
+    .hub-panel {
+      transition: all 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+    .hub-panel:hover {
+      width: 55%;
+    }
+    .hub-panel:hover .overlay-gradient {
+      opacity: 0.2;
+    }
+
+    /* Slow Zoom Effect on Cards */
+    .product-image-container img {
+      transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .product-card:hover img {
+      transform: scale(1.06);
+    }
+
+    /* Hide standard horizontal scroll tracks */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="text-zinc-900 relative overflow-x-hidden min-h-screen antialiased">
+
+  <!-- ========================================== -->
+  <!-- 1. DYNAMIC LUXURY SWEEP CURTAIN OVERLAY   -->
+  <!-- ========================================== -->
+  <div id="pageSweep" class="fixed inset-0 z-[100] transform translate-y-full pointer-events-none flex flex-col items-center justify-center text-center px-6 transition-[transform,background-color,color] duration-[850ms] ease-[cubic-bezier(0.76,0,0.24,1)]">
+    <!-- Decorative Subtle Lines inside Transition Overlay -->
+    <div class="absolute inset-y-0 left-12 w-[1px] bg-current opacity-5 pointer-events-none hidden md:block"></div>
+    <div class="absolute inset-y-0 right-12 w-[1px] bg-current opacity-5 pointer-events-none hidden md:block"></div>
+    
+    <!-- Dynamic Transition Content Container -->
+    <div id="sweepTextContainer" class="opacity-0 transform translate-y-4 transition-all duration-[450ms] ease-out">
+      <span id="sweepSub" class="text-[10px] font-bold tracking-[0.5em] uppercase block mb-4 text-[#B4975A]">Atelier Chamber</span>
+      <h2 id="sweepTitle" class="text-3xl md:text-6xl font-light tracking-[0.25em] uppercase luxury-serif block leading-snug">LOADING</h2>
+      <div class="w-16 h-[1px] bg-[#B4975A] mx-auto my-6 opacity-60"></div>
+      <p id="sweepDesc" class="text-[11px] tracking-[0.15em] max-w-md mx-auto leading-relaxed italic opacity-75">Establishing secure connection to the archive...</p>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 2. LANDING HUB (MAISON SELECTOR)           -->
+  <!-- ========================================== -->
+  <div id="maisonHub" class="fixed inset-0 z-50 flex flex-col md:flex-row bg-[#FAF9F6] transition-transform duration-700">
+    
+    <!-- BRAND A: CAP IT PANEL -->
+    <div onclick="navigateTo('capit')" class="hub-panel relative w-full md:w-1/2 h-1/2 md:h-full overflow-hidden group cursor-pointer border-b md:border-b-0 md:border-r border-luxury flex items-center justify-center">
+      <div class="absolute inset-0 bg-cover bg-center transition-transform duration-[1500ms] group-hover:scale-105" style="background-image: url('https://images.unsplash.com/photo-1591818343198-4ff334074580?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNhcHxlbnwwfHwwfHx8MA%3D%3D');"></div>
+      <div class="absolute inset-0 bg-black/45 overlay-gradient transition-opacity duration-500 group-hover:bg-black/25"></div>
+      
+      <div class="relative z-10 text-center px-6">
+        <span class="text-[10px] font-semibold tracking-[0.4em] text-[#FAF9F6] uppercase drop-shadow-sm">ATELIER HEADWEAR</span>
+        <h2 class="text-4xl md:text-5xl font-light tracking-[0.2em] text-white mt-4 uppercase luxury-serif drop-shadow-md">CAP IT</h2>
+        <div class="mt-6 inline-block border border-white/40 group-hover:border-[#B4975A] text-white text-[10px] tracking-[0.3em] uppercase py-3 px-8 transition duration-300 bg-black/10 group-hover:bg-[#FAF9F6] group-hover:text-zinc-950">
+          Enter Atelier
+        </div>
+      </div>
+    </div>
+
+    <!-- BRAND B: BEADS & BEYOND PANEL -->
+    <div onclick="navigateTo('beads')" class="hub-panel relative w-full md:w-1/2 h-1/2 md:h-full overflow-hidden group cursor-pointer flex items-center justify-center">
+      <div class="absolute inset-0 bg-cover bg-center transition-transform duration-[1500ms] group-hover:scale-105" style="background-image: url('https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=1000');"></div>
+      <div class="absolute inset-0 bg-black/50 overlay-gradient transition-opacity duration-500 group-hover:bg-black/30"></div>
+      
+      <div class="relative z-10 text-center px-6">
+        <span class="text-[10px] font-semibold tracking-[0.4em] text-[#FAF9F6] uppercase">ARTISANAL JEWELRY</span>
+        <h2 class="text-4xl md:text-5xl font-light tracking-[0.15em] text-white mt-4 uppercase luxury-serif leading-snug">Beads & Beyond</h2>
+        <div class="mt-6 inline-block border border-white/40 group-hover:border-[#B4975A] text-white text-[10px] tracking-[0.3em] uppercase py-3 px-8 transition duration-300 bg-black/10 group-hover:bg-[#FAF9F6] group-hover:text-zinc-950">
+          Explore Jewelry
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- 3. BRAND STORE: CAP IT                     -->
+  <!-- ========================================== -->
+  <div id="storeCapIt" class="hidden">
+    <!-- Floating Glassmorphic Header -->
+    <header class="sticky top-0 z-40 glass-header">
+      <div class="max-w-7xl mx-auto px-6 sm:px-8 h-20 flex items-center justify-between">
+        
+        <!-- Left: Return to Hub & House Link -->
+        <div class="flex items-center space-x-6">
+          <button onclick="navigateTo('hub')" class="text-[9px] font-bold uppercase tracking-[0.2em] text-[#B4975A] border border-[#B4975A]/30 py-1.5 px-3 hover:bg-[#B4975A]/10 transition flex items-center">
+            ← Maison Hub
+          </button>
+          <nav class="hidden md:flex space-x-6 text-[11px] font-medium uppercase tracking-[0.25em] text-zinc-600">
+            <a href="#" class="hover:text-[#B4975A] transition">The House</a>
+          </nav>
+          <!-- Dynamic Status Indicator -->
+          <div class="cms-status-badge hidden lg:flex items-center space-x-1.5 text-[9px] font-bold uppercase tracking-[0.15em] bg-zinc-100 text-zinc-500 py-1 px-2.5 rounded-full border border-luxury/80">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse status-dot"></span>
+            <span class="status-text">Atelier Demo Mode</span>
+          </div>
+        </div>
+
+        <!-- Center: Branding -->
+        <div onclick="filterCategory('all', 'capit')" class="text-xl font-bold tracking-[0.3em] uppercase text-zinc-900 cursor-pointer luxury-serif hover:opacity-80 transition">
+          CAP IT
+        </div>
+        
+        <!-- Right: Search & Minimalist Bag Icon -->
+        <div class="flex items-center space-x-6">
+          <div class="relative w-40 sm:w-48">
+            <input 
+              type="text" 
+              id="searchCapIt" 
+              placeholder="Search Maison..." 
+              class="w-full bg-transparent border-b border-zinc-200 py-1 text-xs tracking-wider focus:outline-none focus:border-[#B4975A] transition placeholder-zinc-400"
+            >
+          </div>
+
+          <button onclick="toggleCart(true, 'capit')" class="relative p-1 text-zinc-800 hover:text-[#B4975A] transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.25" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            <span id="badgeCapIt" class="absolute -top-1 -right-1.5 bg-[#B4975A] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold scale-0 transition-transform">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Brand Hero Section -->
+    <section class="max-w-4xl mx-auto px-6 py-16 text-center border-b border-luxury">
+      <span class="text-[10px] font-semibold tracking-[0.4em] text-[#B4975A] uppercase">ESTABLISHED 2026</span>
+      <h1 class="text-3xl md:text-4xl font-extralight tracking-[0.15em] text-zinc-900 mt-4 uppercase luxury-serif">The Cap It Atelier</h1>
+      <p class="mt-4 text-xs tracking-wider text-zinc-500 max-w-xl mx-auto leading-relaxed">
+        A collection defined by exceptional materials, meticulous tailoring, and contemporary lines. Handcrafted structural headwear constructed for the modern silhouette.
+      </p>
+    </section>
+
+    <!-- Filters and Categories -->
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 py-8">
+      <div class="flex justify-center space-x-8 overflow-x-auto no-scrollbar pb-1" id="catSelectorCapIt">
+        <button onclick="filterCategory('all', 'capit')" id="btn-capit-all" class="cat-btn-capit pb-2 text-[11px] font-semibold uppercase tracking-[0.2em] border-b-2 border-zinc-900 text-zinc-900 transition">All Pieces</button>
+        <button onclick="filterCategory('caps', 'capit')" id="btn-capit-caps" class="cat-btn-capit pb-2 text-[11px] font-semibold uppercase tracking-[0.2em] border-b-2 border-transparent text-zinc-400 hover:text-zinc-900 transition">Caps</button>
+        <button onclick="filterCategory('beanies', 'capit')" id="btn-capit-beanies" class="cat-btn-capit pb-2 text-[11px] font-semibold uppercase tracking-[0.2em] border-b-2 border-transparent text-zinc-400 hover:text-zinc-900 transition">Beanies</button>
+        <button onclick="filterCategory('buckets', 'capit')" id="btn-capit-buckets" class="cat-btn-capit pb-2 text-[11px] font-semibold uppercase tracking-[0.2em] border-b-2 border-transparent text-zinc-400 hover:text-zinc-900 transition">Buckets</button>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <main class="max-w-7xl mx-auto px-6 sm:px-8 py-12">
+      <div id="gridCapIt" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-16">
+        <p class="col-span-full text-xs tracking-wider text-center py-12 text-zinc-400 animate-pulse">Connecting to the Atelier...</p>
+      </div>
+    </main>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- 4. BRAND STORE: BEADS & BEYOND             -->
+  <!-- ========================================== -->
+  <div id="storeBeads" class="hidden">
+    <!-- Floating Glassmorphic Header -->
+    <header class="sticky top-0 z-40 glass-header">
+      <div class="max-w-7xl mx-auto px-6 sm:px-8 h-20 flex items-center justify-between">
+        
+        <!-- Left: Return to Hub & House Link -->
+        <div class="flex items-center space-x-6">
+          <button onclick="navigateTo('hub')" class="text-[9px] font-bold uppercase tracking-[0.2em] text-[#B4975A] border border-[#B4975A]/30 py-1.5 px-3 hover:bg-[#B4975A]/10 transition flex items-center">
+            ← Maison Hub
+          </button>
+          <nav class="hidden md:flex space-x-6 text-[11px] font-medium uppercase tracking-[0.25em] text-zinc-600">
+            <a href="#" class="hover:text-[#B4975A] transition">Atelier Archives</a>
+          </nav>
+          <!-- Dynamic Status Indicator -->
+          <div class="cms-status-badge hidden lg:flex items-center space-x-1.5 text-[9px] font-bold uppercase tracking-[0.15em] bg-zinc-100 text-zinc-500 py-1 px-2.5 rounded-full border border-luxury/80">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse status-dot"></span>
+            <span class="status-text">Atelier Demo Mode</span>
+          </div>
+        </div>
+
+        <!-- Center: Branding -->
+        <div onclick="filterCategory('all', 'beads')" class="text-xl font-bold tracking-[0.25em] uppercase text-zinc-900 cursor-pointer luxury-serif hover:opacity-80 transition">
+          Beads & Beyond
+        </div>
+        
+        <!-- Right: Search & Minimalist Bag Icon -->
+        <div class="flex items-center space-x-6">
+          <div class="relative w-40 sm:w-48">
+            <input 
+              type="text" 
+              id="searchBeads" 
+              placeholder="Search Archives..." 
+              class="w-full bg-transparent border-b border-zinc-200 py-1 text-xs tracking-wider focus:outline-none focus:border-[#B4975A] transition placeholder-zinc-400"
+            >
+          </div>
+
+          <button onclick="toggleCart(true, 'beads')" class="relative p-1 text-zinc-800 hover:text-[#B4975A] transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.25" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            <span id="badgeBeads" class="absolute -top-1 -right-1.5 bg-[#B4975A] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold scale-0 transition-transform">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Brand Hero Section -->
+    <section class="max-w-4xl mx-auto px-6 py-20 text-center border-b border-luxury">
+      <span class="text-[10px] font-semibold tracking-[0.4em] text-[#B4975A] uppercase">ESTABLISHED 2026</span>
+      <h1 class="text-3xl md:text-4xl font-extralight tracking-[0.1em] text-zinc-900 mt-4 uppercase luxury-serif">ARTISANAL PRECIOUS STRANDS</h1>
+      <p class="mt-4 text-xs tracking-wider text-zinc-500 max-w-xl mx-auto leading-relaxed">
+        Sculptural, heavy-duty necklaces and armbands crafted out of pure stones, pearls, and premium metals. An elegant celebration of earthly mineral beauty.
+      </p>
+    </section>
+
+    <!-- Filters and Categories -->
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 py-8">
+      <div class="flex justify-center space-x-8 overflow-x-auto no-scrollbar pb-1" id="catSelectorBeads">
+        <button onclick="filterCategory('all', 'beads')" id="btn-beads-all" class="cat-btn-beads pb-2 text-[11px] font-semibold uppercase tracking-[0.2em] border-b-2 border-zinc-900 text-zinc-900 transition">All Jewels</button>
+        <button onclick="filterCategory('necklaces', 'beads')" id="btn-beads-necklaces" class="cat-btn-beads pb-2 text-[11px] font-semibold uppercase tracking-[0.2em] border-b-2 border-transparent text-zinc-400 hover:text-zinc-900 transition">Necklaces</button>
+        <button onclick="filterCategory('bracelets', 'beads')" id="btn-beads-bracelets" class="cat-btn-beads pb-2 text-[11px] font-semibold uppercase tracking-[0.2em] border-b-2 border-transparent text-zinc-400 hover:text-zinc-900 transition">Bracelets</button>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <main class="max-w-7xl mx-auto px-6 sm:px-8 py-12">
+      <div id="gridBeads" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-16">
+        <p class="col-span-full text-xs tracking-wider text-center py-12 text-zinc-400 animate-pulse">Accessing the Archives...</p>
+      </div>
+    </main>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- 5. SIDE CART DRAWER (DYNAMICALLY ADAPTS)    -->
+  <!-- ========================================== -->
+  <div id="cartOverlay" class="fixed inset-0 bg-zinc-950 bg-opacity-40 z-50 invisible transition-opacity duration-300 flex justify-end backdrop-blur-[2px]">
+    <div onclick="toggleCart(false)" class="absolute inset-0"></div>
+    <div id="cartDrawer" class="relative w-full max-w-md bg-[#FAF9F6] h-full shadow-2xl flex flex-col translate-x-full transition-transform duration-300 z-10 border-l border-luxury">
+      
+      <div class="px-8 py-6 border-b border-luxury flex items-center justify-between">
+        <h2 class="text-sm font-semibold uppercase tracking-[0.25em] text-zinc-900 luxury-serif"><span id="cartMaisonName">ATELIER</span> Selection (<span id="cartCountHeader">0</span>)</h2>
+        <button onclick="toggleCart(false)" class="p-2 hover:text-[#B4975A] transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <div id="cartItemsList" class="flex-1 overflow-y-auto p-8 space-y-8">
+        <div id="emptyCartMessage" class="h-full flex flex-col items-center justify-center text-center">
+          <svg class="w-10 h-10 text-zinc-300 mb-4" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+          <p class="text-[11px] uppercase tracking-[0.2em] text-zinc-400">The selection is currently empty.</p>
+        </div>
+      </div>
+
+      <div id="cartFooter" class="border-t border-luxury p-8 bg-[#FAF9F6] hidden">
+        <div class="flex justify-between text-xs font-semibold uppercase tracking-[0.2em] text-zinc-900 mb-6">
+          <span>Est. Total</span>
+          <span id="cartSubtotal" class="font-bold text-[#B4975A]">KSh 0.00</span>
+        </div>
+        <button onclick="triggerCheckout()" class="w-full bg-zinc-900 text-white py-4 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-[#B4975A] transition-all duration-300">Secure Checkout</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- 6. PRODUCT DETAIL OVERLAY MODAL            -->
+  <!-- ========================================== -->
+  <div id="productDetailOverlay" class="fixed inset-0 bg-zinc-950/60 z-50 flex items-center justify-center p-4 md:p-6 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-sm">
+    <div onclick="closeProductDetail()" class="absolute inset-0"></div>
+    
+    <div class="relative w-full max-w-4xl bg-[#FAF9F6] border border-luxury shadow-2xl rounded-sm flex flex-col md:flex-row overflow-hidden max-h-[90vh] md:max-h-[85vh] scale-95 transition-transform duration-300" id="productDetailModal">
+      <!-- Close Button -->
+      <button onclick="closeProductDetail()" class="absolute top-4 right-4 z-10 p-2 text-zinc-500 hover:text-[#B4975A] transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+
+      <!-- Left side: Product Image -->
+      <div class="w-full md:w-1/2 h-64 md:h-auto bg-zinc-100 overflow-hidden relative">
+        <img id="detailProductImage" src="" class="w-full h-full object-cover object-center" alt="">
+      </div>
+
+      <!-- Right side: Product Details -->
+      <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-between overflow-y-auto no-scrollbar max-h-[50vh] md:max-h-none">
+        <div>
+          <span id="detailProductCategory" class="text-[9px] font-bold uppercase tracking-[0.2em] text-[#B4975A]">Atelier</span>
+          <h2 id="detailProductName" class="text-xl md:text-2xl font-light tracking-[0.1em] text-zinc-900 mt-2 uppercase luxury-serif">Product Name</h2>
+          <p id="detailProductPrice" class="text-sm font-semibold text-zinc-900 mt-2">KSh 0.00</p>
+          
+          <hr class="my-6 border-luxury">
+
+          <!-- Description -->
+          <div>
+            <h4 class="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-400">The Story</h4>
+            <p id="detailProductDesc" class="text-xs text-zinc-600 mt-2 leading-relaxed">Product short description goes here.</p>
+          </div>
+
+          <!-- Design Details -->
+          <div class="mt-6">
+            <h4 class="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-400">Design Details</h4>
+            <p id="detailProductDetails" class="text-xs text-zinc-600 mt-2 leading-relaxed italic">Atelier custom features and material lists.</p>
+          </div>
+
+          <!-- Styling Tip -->
+          <div class="mt-6 p-4 bg-zinc-100 border-l-2 border-[#B4975A]">
+            <h4 class="text-[9px] font-bold uppercase tracking-[0.15em] text-[#B4975A]">Styling Recommendation</h4>
+            <p id="detailProductStyling" class="text-xs text-zinc-700 mt-1.5 leading-relaxed">Creative pairing advice from our creative director.</p>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-8 pt-6 border-t border-luxury flex items-center space-x-4">
+          <button id="detailAddToCartBtn" class="flex-1 bg-zinc-900 text-white py-3.5 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#B4975A] transition-all duration-300">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- 7. JAVASCRIPT SYSTEM ENGINE (WITH SANITY)  -->
+  <!-- ========================================== -->
+  <script>
+    // =======================================================
+    // A. SANITY CONFIGURATION SETTINGS
+    // =======================================================
+    const SANITY_PROJECT_ID = "an1m58eg"; 
+    const SANITY_DATASET = "production";        
+    const SANITY_API_VERSION = "2026-07-15";     
+
+    // Client-side products arrays populated by live fetch or fallback
+    let CAPIT_PRODUCTS = [];
+    let BEADS_PRODUCTS = [];
+
+    // System Navigation and Cart States
+    let currentMaison = 'hub';
+    let cartCapIt = [];
+    let cartBeads = [];
+    
+    let activeCategoryCapIt = 'all';
+    let activeCategoryBeads = 'all';
+    
+    let searchValCapIt = '';
+    let searchValBeads = '';
+
+    // Specialized Local Currency Formatter (Kenyan Shillings KSh)
+    function formatKES(amount) {
+      return 'KSh ' + Number(amount).toLocaleString('en-KE', { 
+        minimumFractionDigits: 0, 
+        maximumFractionDigits: 0 
+      });
+    }
+
+    // Luxurious Fallback Database (with simulated stock levels to test UI instantly)
+    const FALLBACK_CAPIT = [
+      {
+        id: "cap-1",
+        name: "Linen Struct Cap",
+        price: 24000,
+        img: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&q=80&w=600",
+        desc: "Structured crown constructed of Belgian unbleached linen fabric.",
+        details: "Reinforced stitched peak, premium calfskin adjustment strap, solid brass closure.",
+        stylingTip: "Pair with an oversized linen trench and neutral tailoring to emphasize the structural profile.",
+        category: "caps",
+        brand: "capit",
+        stock: 5
+      },
+      {
+        id: "cap-2",
+        name: "Shetland Wool Beanie",
+        price: 19000,
+        img: "https://images.unsplash.com/photo-1576871337622-98d48d4aa53e?auto=format&fit=crop&q=80&w=600",
+        desc: "Thick rib knit constructed from organic Shetland sheep wool.",
+        details: "Hand-finished double-fold hem, insulating loose knit crown, signature Atelier label.",
+        stylingTip: "Wear slightly relaxed with a technical shell jacket for contrast in material textures.",
+        category: "beanies",
+        brand: "capit",
+        stock: 0 
+      },
+      {
+        id: "cap-3",
+        name: "Ventile Cotton Bucket",
+        price: 27500,
+        img: "https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&fit=crop&q=80&w=600",
+        desc: "Waterproof dense Ventile canvas designed for elements.",
+        details: "Architectural structured brim, fully taped seams, breathable mesh eyelets.",
+        stylingTip: "Complements a heavy technical parka or clean-cut canvas chore jacket.",
+        category: "buckets",
+        brand: "capit",
+        stock: 3
+      },
+      {
+        id: "cap-4",
+        name: "Suede Silhouette Cap",
+        price: 31000,
+        img: "https://images.unsplash.com/photo-1534215754734-18e55d13ce35?auto=format&fit=crop&q=80&w=600",
+        desc: "Heavyweight calfskin suede cap styled in clean curves.",
+        details: "Unstructured minimalist panel design, silk lining, silver embossed buckle.",
+        stylingTip: "Enhances casual heavy wool knitwear or fine cashmere sweaters.",
+        category: "caps",
+        brand: "capit",
+        stock: 12
+      }
+    ];
+
+    const FALLBACK_BEADS = [
+      {
+        id: "bead-1",
+        name: "Volcanic Obsidian Strand",
+        price: 115000,
+        img: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=600",
+        desc: "Heavyweight chiseled black volcanic glass beads offset with sterling elements.",
+        details: "Individually knotted hand-cut beads, raw obsidian endpoints, solid sterling toggle lock.",
+        stylingTip: "Contrast against a white poplin dress shirt or charcoal silk tailoring for mineral depth.",
+        category: "necklaces",
+        brand: "beads",
+        stock: 1
+      },
+      {
+        id: "bead-2",
+        name: "Freshwater Monolith Bracelet",
+        price: 54500,
+        img: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=600",
+        desc: "Baroque irregular freshwater pearls separated by gold spacers.",
+        details: "Naturally irregular high-luster pearls, 24k gold plated brass dividers, invisible clasp.",
+        stylingTip: "Complements heavy-gauge linen shirts worn open at the wrist, or high-contrast knitwear.",
+        category: "bracelets",
+        brand: "beads",
+        stock: 0 
+      },
+      {
+        id: "bead-3",
+        name: "Precious Malachite Torque",
+        price: 156000,
+        img: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=600",
+        desc: "Dense custom cut banded malachite cylinder necklace.",
+        details: "Satin brushed platinum collar bar, malachite cylindrical elements, pressure lock.",
+        stylingTip: "Best displayed flat against the collarbone inside a deeply tailored dark blazer.",
+        category: "necklaces",
+        brand: "beads",
+        stock: 8
+      }
+    ];
+
+    // =======================================================
+    // B. LIVE SANITY API CALL (GROQ) WITH STOCK QUERY & FALLBACK
+    // =======================================================
+    async function fetchProductsFromSanity() {
+      const query = encodeURIComponent(`*[_type == "product"]{
+        "id": _id,
+        "name": name,
+        "price": price,
+        "img": image.asset->url,
+        "desc": shortDescription,
+        "details": designDetails,
+        "stylingTip": stylingRecommendation,
+        "category": category,
+        "brand": brand,
+        "stock": stock
+      }`);
+
+      const url = `https://${SANITY_PROJECT_ID}.apicdn.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}?query=${query}`;
+
+      try {
+        if (SANITY_PROJECT_ID === "YOUR_PROJECT_ID") {
+          throw new Error("Sanity Project ID left at default mockup value.");
+        }
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Sanity returned an invalid HTTP response status.");
+        
+        const json = await response.json();
+        const allProducts = json.result || [];
+
+        if (allProducts.length === 0) {
+          throw new Error("No live documents found in configured database.");
+        }
+
+        // Convert base USD/EUR prices if they are mapped below threshold limits
+        allProducts.forEach(p => {
+          if (p.price && p.price < 2000) {
+            p.price = Math.round(p.price * 1); 
+          }
+        });
+
+        CAPIT_PRODUCTS = allProducts.filter(p => p.brand === 'capit');
+        BEADS_PRODUCTS = allProducts.filter(p => p.brand === 'beads');
+
+        console.log(`CMS Synced! Loaded ${CAPIT_PRODUCTS.length} headwear pieces and ${BEADS_PRODUCTS.length} jewelry pieces.`);
+        updateCMSStatus(true);
+
+      } catch (error) {
+        console.warn("Maison CMS Offline. Synchronizing Sandbox Cache Mode...", error);
+        
+        CAPIT_PRODUCTS = FALLBACK_CAPIT;
+        BEADS_PRODUCTS = FALLBACK_BEADS;
+        updateCMSStatus(false);
+      } finally {
+        renderStore('capit');
+        renderStore('beads');
+      }
+    }
+
+    // Update Connection Status in UI
+    function updateCMSStatus(isConnected) {
+      document.querySelectorAll('.cms-status-badge').forEach(badge => {
+        const dot = badge.querySelector('.status-dot');
+        const text = badge.querySelector('.status-text');
+        
+        if (isConnected) {
+          dot.className = "w-1.5 h-1.5 rounded-full bg-emerald-500 status-dot";
+          text.innerText = "Atelier Live Studio";
+          badge.className = "cms-status-badge hidden lg:flex items-center space-x-1.5 text-[9px] font-bold uppercase tracking-[0.15em] bg-emerald-50 text-emerald-700 py-1 px-2.5 rounded-full border border-emerald-200";
+        } else {
+          dot.className = "w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse status-dot";
+          text.innerText = "Atelier Demo Mode";
+          badge.className = "cms-status-badge hidden lg:flex items-center space-x-1.5 text-[9px] font-bold uppercase tracking-[0.15em] bg-zinc-100 text-zinc-500 py-1 px-2.5 rounded-full border border-luxury/80";
+        }
+      });
+    }
+
+    // Load database on DOM creation
+    window.addEventListener('DOMContentLoaded', fetchProductsFromSanity);
+
+    // =======================================================
+    // C. SPA BRAND PAGE SWEEP TRANSITION ROUTER
+    // =======================================================
+    function navigateTo(destination) {
+      const sweep = document.getElementById('pageSweep');
+      const textContainer = document.getElementById('sweepTextContainer');
+      const sweepSub = document.getElementById('sweepSub');
+      const sweepTitle = document.getElementById('sweepTitle');
+      const sweepDesc = document.getElementById('sweepDesc');
+      
+      let isDarkTransition = true;
+      let subText = "Atelier Collection";
+      let titleText = "Maison Hub";
+      let descText = "Return to the grand hall of selection.";
+
+      if (destination === 'capit') {
+        isDarkTransition = true;
+        subText = "ARCHITECTURAL HEADWEAR";
+        titleText = "CAP IT";
+        descText = "Hand-tailored structured crowns and organic contours designed for contemporary lines.";
+      } else if (destination === 'beads') {
+        isDarkTransition = false;
+        subText = "COUTURE PRECIOUS STRANDS";
+        titleText = "BEADS & BEYOND";
+        descText = "Heavyweight mineral accents carved from pure volcanic glass, pearls, and premium metals.";
+      } else {
+        isDarkTransition = true;
+        subText = "WELCOME TO THE HOUSE";
+        titleText = "THE MAISON";
+        descText = "Select an architectural chamber to explore our current collections.";
+      }
+
+      if (isDarkTransition) {
+        sweep.style.backgroundColor = "#0F0F11";
+        sweep.style.color = "#FAF9F6";
+        sweep.style.borderTop = "1px solid rgba(255, 255, 255, 0.05)";
+      } else {
+        sweep.style.backgroundColor = "#FAF9F6";
+        sweep.style.color = "#0F0F11";
+        sweep.style.borderTop = "1px solid rgba(0, 0, 0, 0.05)";
+      }
+
+      sweepSub.innerText = subText;
+      sweepTitle.innerText = titleText;
+      sweepDesc.innerText = descText;
+
+      textContainer.classList.remove('opacity-100', 'translate-y-0');
+      textContainer.classList.add('opacity-0', 'translate-y-4');
+      
+      sweep.classList.remove('translate-y-full', '-translate-y-full');
+      sweep.classList.add('translate-y-0');
+
+      setTimeout(() => {
+        textContainer.classList.remove('opacity-0', 'translate-y-4');
+        textContainer.classList.add('opacity-100', 'translate-y-0');
+      }, 250);
+
+      setTimeout(() => {
+        const hub = document.getElementById('maisonHub');
+        const storeCap = document.getElementById('storeCapIt');
+        const storeBea = document.getElementById('storeBeads');
+
+        hub.classList.add('hidden');
+        storeCap.classList.add('hidden');
+        storeBea.classList.add('hidden');
+
+        if (destination === 'hub') {
+          hub.classList.remove('hidden');
+          currentMaison = 'hub';
+        } else if (destination === 'capit') {
+          storeCap.classList.remove('hidden');
+          currentMaison = 'capit';
+        } else if (destination === 'beads') {
+          storeBea.classList.remove('hidden');
+          currentMaison = 'beads';
+        }
+
+        window.scrollTo(0, 0);
+      }, 550);
+
+      setTimeout(() => {
+        textContainer.classList.remove('opacity-100', 'translate-y-0');
+        textContainer.classList.add('opacity-0', '-translate-y-4');
+      }, 850);
+
+      setTimeout(() => {
+        sweep.classList.remove('translate-y-0');
+        sweep.classList.add('-translate-y-full');
+      }, 1050);
+
+      setTimeout(() => {
+        sweep.style.transition = 'none';
+        sweep.classList.remove('-translate-y-full');
+        sweep.classList.add('translate-y-full');
+        sweep.offsetHeight;
+        sweep.style.transition = 'transform 0.85s cubic-bezier(0.76, 0, 0.24, 1), background-color 0.4s ease, color 0.4s ease';
+      }, 1900);
+    }
+
+    // =======================================================
+    // D. DYNAMIC RENDER CONTROLLERS WITH SOLD OUT STATE VEILS
+    // =======================================================
+    function renderStore(brand) {
+      if (brand === 'capit') {
+        const grid = document.getElementById('gridCapIt');
+        grid.innerHTML = '';
+        
+        if (CAPIT_PRODUCTS.length === 0) {
+          grid.innerHTML = `<p class="col-span-full text-center text-xs tracking-wider text-zinc-400 py-12">No headwear items currently listed in the Atelier.</p>`;
+          return;
+        }
+
+        CAPIT_PRODUCTS.forEach(p => {
+          const matchCat = activeCategoryCapIt === 'all' || p.category === activeCategoryCapIt;
+          const nameLower = (p.name || '').toLowerCase();
+          const descLower = (p.desc || '').toLowerCase();
+          const matchSearch = nameLower.includes(searchValCapIt) || descLower.includes(searchValCapIt);
+          
+          const isSoldOut = p.stock !== undefined && p.stock <= 0;
+
+          if (matchCat && matchSearch) {
+            grid.insertAdjacentHTML('beforeend', `
+              <div onclick="openProductDetail('${p.id}', 'capit')" class="product-card group relative cursor-pointer flex flex-col justify-between" data-id="${p.id}">
+                <div>
+                  <div class="product-image-container aspect-[3/4] w-full overflow-hidden bg-zinc-50 border border-luxury/40 relative">
+                    ${isSoldOut ? `
+                      <div class="absolute inset-0 bg-[#FAF9F6]/75 flex items-center justify-center z-10 backdrop-blur-[2px]">
+                        <span class="text-[9px] font-bold tracking-[0.3em] text-zinc-900 border border-zinc-900 py-2 px-5 bg-[#FAF9F6]/90">SOLD OUT</span>
+                      </div>
+                    ` : ''}
+                    <img src="${p.img || 'https://images.unsplash.com/photo-1534215754734-18e55d13ce35'}" alt="${p.name}" class="h-full w-full object-cover object-center">
+                  </div>
+                  <div class="mt-4 flex flex-col">
+                    <span class="text-[9px] font-semibold tracking-[0.2em] text-[#B4975A] uppercase">Collection SS26</span>
+                    <h3 class="text-xs font-semibold text-zinc-900 uppercase tracking-widest mt-1">${p.name}</h3>
+                    <p class="text-[10px] text-zinc-400 mt-1 italic">${p.desc || ''}</p>
+                  </div>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold text-zinc-900 mt-3">${formatKES(p.price || 0)}</p>
+                  ${isSoldOut ? `
+                    <button disabled class="mt-4 w-full bg-zinc-100 border border-luxury text-zinc-400 text-[10px] py-3 font-semibold uppercase tracking-[0.2em] cursor-not-allowed">
+                      Sold Out
+                    </button>
+                  ` : `
+                    <button onclick="event.stopPropagation(); addToCart('${p.id}', 'capit')" class="mt-4 w-full bg-zinc-900 text-white text-[10px] py-3 font-semibold uppercase tracking-[0.2em] opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300">
+                      Add to Cart
+                    </button>
+                  `}
+                </div>
+              </div>
+            `);
+          }
+        });
+      } else if (brand === 'beads') {
+        const grid = document.getElementById('gridBeads');
+        grid.innerHTML = '';
+
+        if (BEADS_PRODUCTS.length === 0) {
+          grid.innerHTML = `<p class="col-span-full text-center text-xs tracking-wider text-zinc-400 py-12">No jewelry items currently listed in the Archives.</p>`;
+          return;
+        }
+
+        BEADS_PRODUCTS.forEach(p => {
+          const matchCat = activeCategoryBeads === 'all' || p.category === activeCategoryBeads;
+          const nameLower = (p.name || '').toLowerCase();
+          const descLower = (p.desc || '').toLowerCase();
+          const matchSearch = nameLower.includes(searchValBeads) || descLower.includes(searchValBeads);
+          
+          const isSoldOut = p.stock !== undefined && p.stock <= 0;
+
+          if (matchCat && matchSearch) {
+            grid.insertAdjacentHTML('beforeend', `
+              <div onclick="openProductDetail('${p.id}', 'beads')" class="product-card group relative cursor-pointer flex flex-col justify-between" data-id="${p.id}">
+                <div>
+                  <div class="product-image-container aspect-[3/4] w-full overflow-hidden bg-zinc-50 border border-luxury/40 relative">
+                    ${isSoldOut ? `
+                      <div class="absolute inset-0 bg-[#FAF9F6]/75 flex items-center justify-center z-10 backdrop-blur-[2px]">
+                        <span class="text-[9px] font-bold tracking-[0.3em] text-zinc-900 border border-zinc-900 py-2 px-5 bg-[#FAF9F6]/90">SOLD OUT</span>
+                      </div>
+                    ` : ''}
+                    <img src="${p.img || 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908'}" alt="${p.name}" class="h-full w-full object-cover object-center">
+                  </div>
+                  <div class="mt-4 flex flex-col">
+                    <span class="text-[9px] font-semibold tracking-[0.2em] text-[#B4975A] uppercase">Couture Beads</span>
+                    <h3 class="text-xs font-semibold text-zinc-900 uppercase tracking-widest mt-1">${p.name}</h3>
+                    <p class="text-[10px] text-zinc-400 mt-1 italic">${p.desc || ''}</p>
+                  </div>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold text-zinc-900 mt-3">${formatKES(p.price || 0)}</p>
+                  ${isSoldOut ? `
+                    <button disabled class="mt-4 w-full bg-zinc-100 border border-luxury text-zinc-400 text-[10px] py-3 font-semibold uppercase tracking-[0.2em] cursor-not-allowed">
+                      Sold Out
+                    </button>
+                  ` : `
+                    <button onclick="event.stopPropagation(); addToCart('${p.id}', 'beads')" class="mt-4 w-full bg-zinc-900 text-white text-[10px] py-3 font-semibold uppercase tracking-[0.2em] opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300">
+                      Add to Cart
+                    </button>
+                  `}
+                </div>
+              </div>
+            `);
+          }
+        });
+      }
+    }
+
+    // =======================================================
+    // E. DETAILED OVERLAY MODAL MANAGER WITH STOCK WARNINGS
+    // =======================================================
+    function openProductDetail(id, brand) {
+      const pList = brand === 'capit' ? CAPIT_PRODUCTS : BEADS_PRODUCTS;
+      const p = pList.find(item => item.id === id);
+      if (!p) return;
+
+      document.getElementById('detailProductImage').src = p.img || (brand === 'capit' ? 'https://images.unsplash.com/photo-1534215754734-18e55d13ce35' : 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908');
+      document.getElementById('detailProductImage').alt = p.name || '';
+      document.getElementById('detailProductCategory').innerText = `${brand === 'capit' ? 'Atelier Headwear' : 'Artisanal Jewelry'} • ${p.category || 'Luxury Selection'}`;
+      document.getElementById('detailProductName').innerText = p.name || '';
+      document.getElementById('detailProductPrice').innerText = formatKES(p.price || 0);
+      document.getElementById('detailProductDesc').innerText = p.desc || 'A premium custom piece crafted with strict architectural design aesthetics.';
+      document.getElementById('detailProductDetails').innerText = p.details || 'Exquisite attention to material profiles and sizing dimensions. Handcrafted limits make this unique.';
+      document.getElementById('detailProductStyling').innerText = p.stylingTip || 'Complimentary piece. Style in light-contrast setups to allow the structures to accent naturally.';
+
+      const addBtn = document.getElementById('detailAddToCartBtn');
+      const isSoldOut = p.stock !== undefined && p.stock <= 0;
+
+      if (isSoldOut) {
+        addBtn.innerText = "Sold Out";
+        addBtn.disabled = true;
+        addBtn.className = "flex-1 bg-zinc-100 border border-luxury text-zinc-400 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] cursor-not-allowed";
+        addBtn.onclick = null;
+      } else {
+        let warningText = "";
+        if (p.stock !== undefined && p.stock <= 3) {
+          warningText = ` (Only ${p.stock} Left)`;
+        }
+
+        addBtn.innerText = `Add to Cart${warningText}`;
+        addBtn.disabled = false;
+        addBtn.className = "flex-1 bg-zinc-900 text-white py-3.5 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#B4975A] transition-all duration-300";
+        addBtn.onclick = () => {
+          addToCart(p.id, brand);
+          closeProductDetail();
+        };
+      }
+
+      const overlay = document.getElementById('productDetailOverlay');
+      const modal = document.getElementById('productDetailModal');
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.remove('scale-95');
+      modal.classList.add('scale-100');
+    }
+
+    function closeProductDetail() {
+      const overlay = document.getElementById('productDetailOverlay');
+      const modal = document.getElementById('productDetailModal');
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      modal.classList.remove('scale-100');
+      modal.classList.add('scale-95');
+    }
+
+    // =======================================================
+    // F. FILTER & CLIENT-SIDE SEARCH ACTIONS
+    // =======================================================
+    function filterCategory(category, brand) {
+      if (brand === 'capit') {
+        activeCategoryCapIt = category;
+        document.querySelectorAll('.cat-btn-capit').forEach(btn => {
+          btn.classList.remove('border-zinc-900', 'text-zinc-900');
+          btn.classList.add('border-transparent', 'text-zinc-400');
+        });
+        const activeBtn = document.getElementById(`btn-capit-${category}`);
+        if (activeBtn) {
+          activeBtn.classList.remove('border-transparent', 'text-zinc-400');
+          activeBtn.classList.add('border-zinc-900', 'text-zinc-900');
+        }
+        renderStore('capit');
+      } else {
+        activeCategoryBeads = category;
+        document.querySelectorAll('.cat-btn-beads').forEach(btn => {
+          btn.classList.remove('border-zinc-900', 'text-zinc-900');
+          btn.classList.add('border-transparent', 'text-zinc-400');
+        });
+        const activeBtn = document.getElementById(`btn-beads-${category}`);
+        if (activeBtn) {
+          activeBtn.classList.remove('border-transparent', 'text-zinc-400');
+          activeBtn.classList.add('border-zinc-900', 'text-zinc-900');
+        }
+        renderStore('beads');
+      }
+    }
+
+    document.getElementById('searchCapIt').addEventListener('input', (e) => {
+      searchValCapIt = e.target.value.toLowerCase().trim();
+      renderStore('capit');
+    });
+    document.getElementById('searchBeads').addEventListener('input', (e) => {
+      searchValBeads = e.target.value.toLowerCase().trim();
+      renderStore('beads');
+    });
+
+    // =======================================================
+    // G. CART ALGORITHMS WITH SYSTEM STOCK LIMIT GUARDS
+    // =======================================================
+    function toggleCart(open, brand) {
+      const overlay = document.getElementById('cartOverlay');
+      const drawer = document.getElementById('cartDrawer');
+      if (open) {
+        document.getElementById('cartMaisonName').innerText = brand === 'capit' ? 'Atelier Cap It' : 'Beads & Beyond';
+        overlay.classList.remove('invisible');
+        setTimeout(() => {
+          drawer.classList.remove('translate-x-full');
+          updateCartUI(brand);
+        }, 50);
+      } else {
+        drawer.classList.add('translate-x-full');
+        setTimeout(() => overlay.classList.add('invisible'), 300);
+      }
+    }
+
+    function addToCart(id, brand) {
+      const productList = brand === 'capit' ? CAPIT_PRODUCTS : BEADS_PRODUCTS;
+      const p = productList.find(item => item.id === id);
+      if (!p) return;
+
+      const cart = brand === 'capit' ? cartCapIt : cartBeads;
+      const existing = cart.find(item => item.id === id);
+      const requestedQty = existing ? existing.quantity + 1 : 1;
+
+      // Dynamic inventory guard limit
+      if (p.stock !== undefined && requestedQty > p.stock) {
+        alert(`Our apologies. We only have ${p.stock} units of the "${p.name}" in stock.`);
+        return;
+      }
+
+      if (existing) {
+        existing.quantity++;
+      } else {
+        cart.push({ ...p, quantity: 1 });
+      }
+
+      updateCartUI(brand);
+      toggleCart(true, brand);
+    }
+
+    function updateQuantity(id, delta, brand) {
+      let cart = brand === 'capit' ? cartCapIt : cartBeads;
+      const item = cart.find(item => item.id === id);
+      if (!item) return;
+
+      if (delta > 0 && item.stock !== undefined && (item.quantity + delta) > item.stock) {
+        alert(`Our apologies. The atelier currently holds a maximum of ${item.stock} pieces for this creation.`);
+        return;
+      }
+
+      item.quantity += delta;
+      
+      if (item.quantity <= 0) {
+        if (brand === 'capit') cartCapIt = cartCapIt.filter(item => item.id !== id);
+        else cartBeads = cartBeads.filter(item => item.id !== id);
+      }
+      updateCartUI(brand);
+    }
+
+    function removeFromCart(id, brand) {
+      if (brand === 'capit') cartCapIt = cartCapIt.filter(item => item.id !== id);
+      else cartBeads = cartBeads.filter(item => item.id !== id);
+      updateCartUI(brand);
+    }
+
+    function updateCartUI(brand) {
+      const list = document.getElementById('cartItemsList');
+      const empty = document.getElementById('emptyCartMessage');
+      const footer = document.getElementById('cartFooter');
+      const subtotalEl = document.getElementById('cartSubtotal');
+
+      const activeCart = brand === 'capit' ? cartCapIt : cartBeads;
+      const count = activeCart.reduce((sum, i) => sum + i.quantity, 0);
+      const subtotal = activeCart.reduce((sum, i) => sum + ((i.price || 0) * i.quantity), 0);
+
+      const badgeCap = document.getElementById('badgeCapIt');
+      const badgeBea = document.getElementById('badgeBeads');
+      const capitCount = cartCapIt.reduce((sum, i) => sum + i.quantity, 0);
+      const beadsCount = cartBeads.reduce((sum, i) => sum + i.quantity, 0);
+
+      badgeCap.innerText = capitCount;
+      if (capitCount > 0) {
+        badgeCap.classList.add('scale-100');
+        badgeCap.classList.remove('scale-0');
+      } else {
+        badgeCap.classList.add('scale-0');
+        badgeCap.classList.remove('scale-100');
+      }
+
+      badgeBea.innerText = beadsCount;
+      if (beadsCount > 0) {
+        badgeBea.classList.add('scale-100');
+        badgeBea.classList.remove('scale-0');
+      } else {
+        badgeBea.classList.add('scale-0');
+        badgeBea.classList.remove('scale-100');
+      }
+
+      document.getElementById('cartCountHeader').innerText = count;
+      subtotalEl.innerText = formatKES(subtotal);
+
+      if (count > 0) {
+        empty.classList.add('hidden');
+        footer.classList.remove('hidden');
+      } else {
+        empty.classList.remove('hidden');
+        footer.classList.add('hidden');
+      }
+
+      const items = list.querySelectorAll('.dynamic-cart-item');
+      items.forEach(i => i.remove());
+
+      activeCart.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'dynamic-cart-item flex items-center space-x-4 pb-6 border-b border-luxury';
+        row.innerHTML = `
+          <img src="${item.img || 'placeholder.jpg'}" class="w-16 h-20 object-cover bg-zinc-100 border border-luxury" alt="${item.name}">
+          <div class="flex-1">
+            <h4 class="text-[10px] font-bold uppercase text-zinc-900 tracking-wider">${item.name}</h4>
+            <p class="text-[9px] text-zinc-400 mt-0.5 italic">${item.desc || ''}</p>
+            <div class="flex items-center space-x-4 mt-3">
+              <div class="flex items-center border border-luxury bg-[#FAF9F6]">
+                <button onclick="updateQuantity('${item.id}', -1, '${brand}')" class="px-2 py-0.5 text-xs text-zinc-500 hover:text-zinc-900">-</button>
+                <span class="px-1 text-[10px] font-semibold text-zinc-900">${item.quantity}</span>
+                <button onclick="updateQuantity('${item.id}', 1, '${brand}')" class="px-2 py-0.5 text-xs text-zinc-500 hover:text-[#B4975A]">+</button>
+              </div>
+              <button onclick="removeFromCart('${item.id}', '${brand}')" class="text-[10px] text-zinc-400 hover:text-red-700 uppercase tracking-widest hover:underline">Remove</button>
+            </div>
+          </div>
+          <div class="text-[11px] font-bold text-zinc-900">${formatKES((item.price || 0) * item.quantity)}</div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    // =======================================================
+    // H. SECURE CHECKOUT TRANSACTION ENGINE
+    // =======================================================
+    function triggerCheckout() {
+      const isCapitOpen = document.getElementById('cartMaisonName').innerText.includes('Cap It');
+      const brand = isCapitOpen ? 'capit' : 'beads';
+      const cart = isCapitOpen ? cartCapIt : cartBeads;
+      
+      if (cart.length === 0) {
+        alert("Your selection is currently empty.");
+        return;
+      }
+      
+      const total = cart.reduce((sum, i) => sum + ((i.price || 0) * i.quantity), 0);
+      
+      alert(`Thank you for choosing the Maison.\n\nYour order has been submitted directly to the Atelier queue.\nEstimated Value: ${formatKES(total)}\n\nA personal concierge will contact you shortly to arrange secure shipping.`);
+      
+      // Clear active brand-specific cart
+      if (isCapitOpen) {
+        cartCapIt = [];
+      } else {
+        cartBeads = [];
+      }
+      
+      updateCartUI(brand);
+      toggleCart(false);
+    }
+  </script>
+</body>
+</html>

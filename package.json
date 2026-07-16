@@ -1,0 +1,16 @@
+{
+  "name": "maison-atelier-backend",
+  "version": "1.0.0",
+  "description": "Secure inventory management backend for Maison Atelier",
+  "type": "module",
+  "main": "api/checkout.js",
+  "scripts": {
+    "start": "node api/checkout.js"
+  },
+  "dependencies": {
+    "@sanity/client": "^6.20.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
