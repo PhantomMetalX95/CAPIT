@@ -56,7 +56,7 @@
       opacity: 0.2;
     }
 
-    /* Slow Zoom Effect on Cards */
+    /* Slow Zoom Effect on Cards ni mbayaaaaaa */
     .product-image-container img {
       transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
     }
@@ -64,7 +64,7 @@
       transform: scale(1.06);
     }
 
-    /* Hide standard horizontal scroll tracks */
+    /* Hide standard horizontal scroll tracks- idk why but why nooottttttt*/
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
@@ -72,14 +72,14 @@
 <body class="text-zinc-900 relative overflow-x-hidden min-h-screen antialiased">
 
   <!-- ========================================== -->
-  <!-- 1. DYNAMIC LUXURY SWEEP CURTAIN OVERLAY   -->
+  <!-- 1. DYNAMIC LUXURY SWEEP CURTAIN OVERLAY hii si ni io mwecheche  -->
   <!-- ========================================== -->
   <div id="pageSweep" class="fixed inset-0 z-[100] transform translate-y-full pointer-events-none flex flex-col items-center justify-center text-center px-6 transition-[transform,background-color,color] duration-[850ms] ease-[cubic-bezier(0.76,0,0.24,1)]">
     <!-- Decorative Subtle Lines inside Transition Overlay -->
     <div class="absolute inset-y-0 left-12 w-[1px] bg-current opacity-5 pointer-events-none hidden md:block"></div>
     <div class="absolute inset-y-0 right-12 w-[1px] bg-current opacity-5 pointer-events-none hidden md:block"></div>
     
-    <!-- Dynamic Transition Content Container -->
+    <!-- Dynamic Transition Content Container- mufti kabisa-->
     <div id="sweepTextContainer" class="opacity-0 transform translate-y-4 transition-all duration-[450ms] ease-out">
       <span id="sweepSub" class="text-[10px] font-bold tracking-[0.5em] uppercase block mb-4 text-[#B4975A]">Atelier Chamber</span>
       <h2 id="sweepTitle" class="text-3xl md:text-6xl font-light tracking-[0.25em] uppercase luxury-serif block leading-snug">LOADING</h2>
@@ -89,7 +89,7 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- 2. LANDING HUB (MAISON SELECTOR)           -->
+  <!-- 2. LANDING HUB (MAISON SELECTOR)      apa ndio landing page, shouldve done more     -->
   <!-- ========================================== -->
   <div id="maisonHub" class="fixed inset-0 z-50 flex flex-col md:flex-row bg-[#FAF9F6] transition-transform duration-700">
     
@@ -102,7 +102,7 @@
         <span class="text-[10px] font-semibold tracking-[0.4em] text-[#FAF9F6] uppercase drop-shadow-sm">ATELIER HEADWEAR</span>
         <h2 class="text-4xl md:text-5xl font-light tracking-[0.2em] text-white mt-4 uppercase luxury-serif drop-shadow-md">CAP IT</h2>
         <div class="mt-6 inline-block border border-white/40 group-hover:border-[#B4975A] text-white text-[10px] tracking-[0.3em] uppercase py-3 px-8 transition duration-300 bg-black/10 group-hover:bg-[#FAF9F6] group-hover:text-zinc-950">
-          Enter Atelier
+          Explore Headwear
         </div>
       </div>
     </div>
@@ -298,19 +298,7 @@
           <span>Est. Total</span>
           <span id="cartSubtotal" class="font-bold text-[#B4975A]">KSh 0.00</span>
         </div>
-        
-        <!-- Checkout Form -->
-        <form id="checkoutForm" class="space-y-3">
-          <input type="email" id="checkoutEmail" required placeholder="Email Address" class="w-full bg-transparent border-b border-zinc-200 py-2 text-xs tracking-wider focus:outline-none focus:border-[#B4975A]">
-          <input type="text" id="checkoutPhone" required placeholder="2547XXXXXXXX" class="w-full bg-transparent border-b border-zinc-200 py-2 text-xs tracking-wider focus:outline-none focus:border-[#B4975A]">
-          
-          <button type="submit" id="checkoutSubmitBtn" class="w-full bg-zinc-900 text-white py-4 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-[#B4975A] transition-all duration-300">
-            Secure Checkout
-          </button>
-        </form>
-        
-        <!-- Status Feedback Area -->
-        <div id="checkoutStatus" class="mt-4 hidden"></div>
+        <button onclick="triggerCheckout()" class="w-full bg-zinc-900 text-white py-4 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-[#B4975A] transition-all duration-300">Secure Checkout</button>
       </div>
     </div>
   </div>
@@ -373,6 +361,76 @@
 
 
   <!-- ========================================== -->
+  <!-- 8. LUXURY SECURE CHECKOUT MODAL            -->
+  <!-- ========================================== -->
+  <div id="checkoutOverlay" class="fixed inset-0 bg-zinc-950/60 z-50 flex items-center justify-center p-4 md:p-6 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-sm">
+    <div onclick="closeCheckoutModal()" class="absolute inset-0"></div>
+    
+    <div class="relative w-full max-w-md bg-[#FAF9F6] border border-luxury shadow-2xl rounded-sm p-6 md:p-8 scale-95 transition-transform duration-300" id="checkoutModal">
+      <!-- Close Button -->
+      <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 z-10 p-2 text-zinc-500 hover:text-[#B4975A] transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+
+      <div>
+        <span class="text-[9px] font-bold uppercase tracking-[0.2em] text-[#B4975A]">Maison Checkout</span>
+        <h2 class="text-xl md:text-2xl font-light tracking-[0.1em] text-zinc-900 mt-2 uppercase luxury-serif">CAP IT</h2>
+        
+        <hr class="my-4 border-luxury">
+
+        <!-- Dynamic Order Summary Box -->
+        <div class="bg-zinc-100 p-4 border border-luxury mb-6">
+          <h4 class="text-[9px] font-bold uppercase tracking-[0.15em] text-zinc-400 mb-2">Order Review</h4>
+          <div class="flex justify-between items-center text-xs text-zinc-700">
+            <span>Selections Count:</span>
+            <span id="checkoutQty" class="font-semibold text-zinc-900">0</span>
+          </div>
+          <div class="flex justify-between items-center text-xs text-zinc-700 mt-1">
+            <span>Atelier Est. Total:</span>
+            <span id="checkoutTotal" class="font-bold text-[#B4975A]">KSh 0.00</span>
+          </div>
+        </div>
+
+        <form id="checkoutForm" class="space-y-4">
+          <!-- Email Field -->
+          <div>
+            <label for="checkoutEmail" class="block text-[9px] font-bold uppercase tracking-[0.15em] text-zinc-400 mb-1.5">Email (For Invoice Receipt)</label>
+            <input 
+              type="email" 
+              id="checkoutEmail" 
+              required
+              placeholder="curator@maison.com" 
+              class="w-full bg-transparent border-b border-zinc-300 py-2 text-xs tracking-wider focus:outline-none focus:border-[#B4975A] transition placeholder-zinc-300"
+            >
+          </div>
+
+          <!-- Phone Number Field -->
+          <div>
+            <label for="checkoutPhone" class="block text-[9px] font-bold uppercase tracking-[0.15em] text-zinc-400 mb-1.5">M-Pesa Mobile Number</label>
+            <input 
+              type="tel" 
+              id="checkoutPhone" 
+              required
+              placeholder="e.g. 0712345678" 
+              class="w-full bg-transparent border-b border-zinc-300 py-2 text-xs tracking-wider focus:outline-none focus:border-[#B4975A] transition placeholder-zinc-300"
+            >
+            <p class="text-[9px] text-zinc-400 mt-1 italic font-light">Enter M-Pesa registered number.</p>
+          </div>
+
+          <!-- Status Alerts -->
+          <div id="checkoutStatus" class="hidden text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border"></div>
+
+          <!-- Submit Action -->
+          <button type="submit" id="checkoutSubmitBtn" class="w-full bg-zinc-900 text-white py-4 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-[#B4975A] transition-all duration-300 mt-4">
+            Authorize M-Pesa Prompt
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
   <!-- 7. JAVASCRIPT SYSTEM ENGINE (WITH SANITY)  -->
   <!-- ========================================== -->
   <script>
@@ -391,6 +449,7 @@
     let currentMaison = 'hub';
     let cartCapIt = [];
     let cartBeads = [];
+    let activeCartBrand = ''; // Tracks the brand associated with the active cart drawer securely
     
     let activeCategoryCapIt = 'all';
     let activeCategoryBeads = 'all';
@@ -398,14 +457,51 @@
     let searchValCapIt = '';
     let searchValBeads = '';
 
-    // Specialized Local Currency Formatter (Kenyan Shillings KSh)
+    // Active checkout order tracking parameters
+    let activeCheckoutTotal = 0;
+    let activeCheckoutQty = 0;
+    let activeCheckoutBrand = '';
+
+    // Specialized Local Currency Formatter (Kenyan Shillings KSh) kenyataaa dorraaasssss
     function formatKES(amount) {
       return 'KSh ' + Number(amount).toLocaleString('en-KE', { 
         minimumFractionDigits: 0, 
         maximumFractionDigits: 0 
       });
     }
+// Function to poll the status until we get a success or failure
+async function pollPaymentStatus(checkoutRequestId) {
+  const statusBox = document.getElementById('checkoutStatus');
+  const submitBtn = document.getElementById('checkoutSubmitBtn');
 
+  // Start polling
+  const pollInterval = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/status?checkoutRequestId=${checkoutRequestId}`);
+      const data = await res.json();
+
+      if (data.status === 'success') {
+        clearInterval(pollInterval);
+        statusBox.innerText = `Payment Successful! Receipt: ${data.receipt}`;
+        statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-emerald-200 bg-emerald-50 text-emerald-700 block";
+        submitBtn.innerText = "Payment Complete";
+        
+        // Optional: Redirect or auto-close modal after 3 seconds
+        setTimeout(() => closeCheckoutModal(), 3000);
+      } 
+      else if (data.status === 'failed') {
+        clearInterval(pollInterval);
+        statusBox.innerText = `Payment Failed: ${data.message || 'Check your PIN'}`;
+        statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-red-200 bg-red-50 text-red-600 block";
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Retry Payment";
+      }
+      // If 'pending', I do nothing and let the interval run again
+    } catch (err) {
+      console.error("Polling error:", err);
+    }
+  }, 3000); // Poll every 3 seconds
+}
     // Luxurious Fallback Database (with simulated stock levels to test UI instantly)
     const FALLBACK_CAPIT = [
       {
@@ -574,125 +670,11 @@
       });
     }
 
-    // =======================================================
-    // C. M-PESA PAYMENT POLLING ENGINE
-    // =======================================================
-    async function pollPaymentStatus(checkoutRequestId) {
-      const statusBox = document.getElementById('checkoutStatus');
-      const submitBtn = document.getElementById('checkoutSubmitBtn');
-
-      const pollInterval = setInterval(async () => {
-        try {
-          const res = await fetch(`/api/status?checkoutRequestId=${checkoutRequestId}`);
-          const data = await res.json();
-
-          if (data.status === 'success') {
-            clearInterval(pollInterval);
-            statusBox.innerText = `Payment Successful! Receipt: ${data.receipt}`;
-            statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-emerald-200 bg-emerald-50 text-emerald-700 block mt-4";
-            submitBtn.innerText = "Payment Complete";
-            
-            // Wait 3 seconds, clear cart, then close the modal
-            setTimeout(() => {
-              const isCapit = document.getElementById('cartMaisonName').innerText.includes('Cap It');
-              if (isCapit) cartCapIt = [];
-              else cartBeads = [];
-              updateCartUI(isCapit ? 'capit' : 'beads');
-              toggleCart(false);
-            }, 3000);
-          } 
-          else if (data.status === 'failed') {
-            clearInterval(pollInterval);
-            statusBox.innerText = `Payment Failed: ${data.message || 'Check your PIN'}`;
-            statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-red-200 bg-red-50 text-red-600 block mt-4";
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Retry Payment";
-          }
-        } catch (err) {
-          console.error("Polling error:", err);
-        }
-      }, 3000);
-    }
+    // Load database on DOM creation
+    window.addEventListener('DOMContentLoaded', fetchProductsFromSanity);
 
     // =======================================================
-    // D. INITIALIZATION & CHECKOUT SUBMISSION LOGIC
-    // =======================================================
-    window.addEventListener('DOMContentLoaded', () => {
-      // 1. Load initial store data
-      fetchProductsFromSanity();
-
-      // 2. Attach Checkout Form Listener
-      const checkoutForm = document.getElementById('checkoutForm');
-      if (checkoutForm) {
-        checkoutForm.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          
-          const email = document.getElementById('checkoutEmail').value.trim();
-          let phone = document.getElementById('checkoutPhone').value.trim();
-          const submitBtn = document.getElementById('checkoutSubmitBtn');
-          const statusBox = document.getElementById('checkoutStatus');
-
-          // Phone Normalization
-          phone = phone.replace(/[^0-9+]/g, '');
-          if (phone.startsWith('+')) phone = phone.substring(1);
-          if (phone.startsWith('0')) phone = '254' + phone.substring(1);
-          else if (phone.startsWith('7') || phone.startsWith('1')) phone = '254' + phone;
-
-          // Validation
-          if (!/^254(7|1)\d{8}$/.test(phone)) {
-            statusBox.innerText = "Invalid M-Pesa Number Format.";
-            statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-red-200 bg-red-50 text-red-600 block mt-4";
-            statusBox.classList.remove('hidden');
-            return;
-          }
-
-          submitBtn.disabled = true;
-          submitBtn.innerText = "Awaiting Connection...";
-          statusBox.innerText = "Initiating M-Pesa...";
-          statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-amber-200 bg-amber-50/50 text-amber-700 block animate-pulse mt-4";
-          statusBox.classList.remove('hidden');
-
-          // Calculate current cart total
-          const isCapit = document.getElementById('cartMaisonName').innerText.includes('Cap It');
-          const cart = isCapit ? cartCapIt : cartBeads;
-          const total = cart.reduce((sum, i) => sum + ((i.price || 0) * i.quantity), 0);
-
-          if (total <= 0) {
-            statusBox.innerText = "Cart is empty.";
-            statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-red-200 bg-red-50 text-red-600 block mt-4";
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Secure Checkout";
-            return;
-          }
-
-          // Trigger API
-          try {
-            const response = await fetch('/api/stkpush', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ amount: total.toString(), phone, email })
-            });
-
-            const data = await response.json();
-
-            if (data.CheckoutRequestID) {
-              statusBox.innerText = "Prompt Sent! Please enter your PIN on your phone...";
-              pollPaymentStatus(data.CheckoutRequestID);
-            } else {
-              throw new Error(data.message || "Payment initiation failed.");
-            }
-          } catch (error) {
-            statusBox.innerText = error.message;
-            statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-red-200 bg-red-50 text-red-600 block mt-4";
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Authorize M-Pesa Prompt";
-          }
-        });
-      }
-    });
-
-    // =======================================================
-    // E. SPA BRAND PAGE SWEEP TRANSITION ROUTER
+    // C. SPA BRAND PAGE SWEEP TRANSITION ROUTER
     // =======================================================
     function navigateTo(destination) {
       const sweep = document.getElementById('pageSweep');
@@ -791,7 +773,7 @@
     }
 
     // =======================================================
-    // F. DYNAMIC RENDER CONTROLLERS WITH SOLD OUT STATE VEILS
+    // D. DYNAMIC RENDER CONTROLLERS WITH SOLD OUT STATE VEILS
     // =======================================================
     function renderStore(brand) {
       if (brand === 'capit') {
@@ -900,7 +882,7 @@
     }
 
     // =======================================================
-    // G. DETAILED OVERLAY MODAL MANAGER WITH STOCK WARNINGS
+    // E. DETAILED OVERLAY MODAL MANAGER WITH STOCK WARNINGS
     // =======================================================
     function openProductDetail(id, brand) {
       const pList = brand === 'capit' ? CAPIT_PRODUCTS : BEADS_PRODUCTS;
@@ -955,7 +937,7 @@
     }
 
     // =======================================================
-    // H. FILTER & CLIENT-SIDE SEARCH ACTIONS
+    // F. FILTER & CLIENT-SIDE SEARCH ACTIONS
     // =======================================================
     function filterCategory(category, brand) {
       if (brand === 'capit') {
@@ -995,19 +977,16 @@
     });
 
     // =======================================================
-    // I. CART ALGORITHMS WITH SYSTEM STOCK LIMIT GUARDS
+    // G. CART ALGORITHMS WITH SYSTEM STOCK LIMIT GUARDS
     // =======================================================
     function toggleCart(open, brand) {
       const overlay = document.getElementById('cartOverlay');
       const drawer = document.getElementById('cartDrawer');
       if (open) {
+        // Securely store the active brand to avoid reading CSS-transformed uppercase text
+        activeCartBrand = brand; 
         document.getElementById('cartMaisonName').innerText = brand === 'capit' ? 'Atelier Cap It' : 'Beads & Beyond';
         overlay.classList.remove('invisible');
-        
-        // Hide form feedback state on new open
-        const statusBox = document.getElementById('checkoutStatus');
-        if (statusBox) statusBox.classList.add('hidden');
-        
         setTimeout(() => {
           drawer.classList.remove('translate-x-full');
           updateCartUI(brand);
@@ -1073,7 +1052,6 @@
       const empty = document.getElementById('emptyCartMessage');
       const footer = document.getElementById('cartFooter');
       const subtotalEl = document.getElementById('cartSubtotal');
-      const submitBtn = document.getElementById('checkoutSubmitBtn');
 
       const activeCart = brand === 'capit' ? cartCapIt : cartBeads;
       const count = activeCart.reduce((sum, i) => sum + i.quantity, 0);
@@ -1108,10 +1086,6 @@
       if (count > 0) {
         empty.classList.add('hidden');
         footer.classList.remove('hidden');
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerText = "Secure Checkout";
-        }
       } else {
         empty.classList.remove('hidden');
         footer.classList.add('hidden');
@@ -1130,11 +1104,11 @@
             <p class="text-[9px] text-zinc-400 mt-0.5 italic">${item.desc || ''}</p>
             <div class="flex items-center space-x-4 mt-3">
               <div class="flex items-center border border-luxury bg-[#FAF9F6]">
-                <button type="button" onclick="updateQuantity('${item.id}', -1, '${brand}')" class="px-2 py-0.5 text-xs text-zinc-500 hover:text-zinc-900">-</button>
+                <button onclick="updateQuantity('${item.id}', -1, '${brand}')" class="px-2 py-0.5 text-xs text-zinc-500 hover:text-zinc-900">-</button>
                 <span class="px-1 text-[10px] font-semibold text-zinc-900">${item.quantity}</span>
-                <button type="button" onclick="updateQuantity('${item.id}', 1, '${brand}')" class="px-2 py-0.5 text-xs text-zinc-500 hover:text-[#B4975A]">+</button>
+                <button onclick="updateQuantity('${item.id}', 1, '${brand}')" class="px-2 py-0.5 text-xs text-zinc-500 hover:text-[#B4975A]">+</button>
               </div>
-              <button type="button" onclick="removeFromCart('${item.id}', '${brand}')" class="text-[10px] text-zinc-400 hover:text-red-700 uppercase tracking-widest hover:underline">Remove</button>
+              <button onclick="removeFromCart('${item.id}', '${brand}')" class="text-[10px] text-zinc-400 hover:text-red-700 uppercase tracking-widest hover:underline">Remove</button>
             </div>
           </div>
           <div class="text-[11px] font-bold text-zinc-900">${formatKES((item.price || 0) * item.quantity)}</div>
@@ -1142,6 +1116,155 @@
         list.appendChild(row);
       });
     }
+
+    // =======================================================
+    // H. SECURE CHECKOUT TRANSACTION ENGINE
+    // =======================================================
+    function triggerCheckout() {
+      // Safely refer to our tracked state variable to circumvent uppercase transforms
+      const brand = activeCartBrand; 
+      const cart = brand === 'capit' ? cartCapIt : cartBeads;
+      
+      if (cart.length === 0) {
+        alert("Your selection is currently empty.");
+        return;
+      }
+      
+      activeCheckoutBrand = brand;
+      activeCheckoutQty = cart.reduce((sum, i) => sum + i.quantity, 0);
+      activeCheckoutTotal = cart.reduce((sum, i) => sum + ((i.price || 0) * i.quantity), 0);
+
+      // Close Cart Drawer
+      toggleCart(false);
+
+      // Populate Checkout Details
+      document.getElementById('checkoutQty').innerText = activeCheckoutQty;
+      document.getElementById('checkoutTotal').innerText = formatKES(activeCheckoutTotal);
+      
+      // Clear Status Alerts
+      const statusBox = document.getElementById('checkoutStatus');
+      statusBox.classList.add('hidden');
+      statusBox.className = "hidden text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border";
+      
+      // Reset Submit Button Status
+      const submitBtn = document.getElementById('checkoutSubmitBtn');
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Authorize M-Pesa Prompt";
+      submitBtn.className = "w-full bg-zinc-900 text-white py-4 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-[#B4975A] transition-all duration-300 mt-4";
+
+      // Open Checkout Overlay Modal
+      openCheckoutModal();
+    }
+
+    function openCheckoutModal() {
+      const overlay = document.getElementById('checkoutOverlay');
+      const modal = document.getElementById('checkoutModal');
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.remove('scale-95');
+      modal.classList.add('scale-100');
+    }
+
+    function closeCheckoutModal() {
+      const overlay = document.getElementById('checkoutOverlay');
+      const modal = document.getElementById('checkoutModal');
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      modal.classList.remove('scale-100');
+      modal.classList.add('scale-95');
+    }
+
+    // Handle checkout submission endpoint call
+    document.addEventListener('DOMContentLoaded', () => {
+      const checkoutForm = document.getElementById('checkoutForm');
+      if (checkoutForm) {
+        checkoutForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById('checkoutEmail').value.trim();
+          let phone = document.getElementById('checkoutPhone').value.trim();
+          const submitBtn = document.getElementById('checkoutSubmitBtn');
+          const statusBox = document.getElementById('checkoutStatus');
+
+          // Normalize and format the mobile phone number (to format: 254XXXXXXXXX)
+          phone = phone.replace(/[^0-9+]/g, ''); // remove non-numeric values (keeping '+')
+          if (phone.startsWith('+')) {
+            phone = phone.substring(1);
+          }
+          if (phone.startsWith('0')) {
+            phone = '254' + phone.substring(1);
+          } else if (phone.startsWith('7') || phone.startsWith('1')) {
+            phone = '254' + phone;
+          }
+
+          // Safe Regex to ensure standard Safaricom Kenyan mobile format (12 characters starting with 254)
+          if (!/^254(7|1)\d{8}$/.test(phone)) {
+            statusBox.innerText = "Invalid M-Pesa Number Format.";
+            statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-red-200 bg-red-50 text-red-600 block";
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.innerText = "Awaiting Connection...";
+          submitBtn.className = "w-full bg-zinc-400 text-white py-4 text-xs font-semibold uppercase tracking-[0.25em] cursor-not-allowed mt-4";
+
+          statusBox.innerText = "Awaiting Safaricom Secure Gateway...";
+          statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-amber-200 bg-amber-50/50 text-amber-700 block animate-pulse";
+
+          try {
+            // Initiating Secure POST Call to the dynamic Vercel /api/stkpush endpoint
+            const response = await fetch('/api/stkpush', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                amount: Math.round(activeCheckoutTotal).toString(),
+                phone: phone,
+                email: email
+              })
+            });
+
+            if (!response.ok) {
+              const errData = await response.json().catch(() => ({}));
+              throw new Error(errData.message || errData.errorMessage || "System failed to connect with payment gateway.");
+            }
+
+            const data = await response.json();
+
+            // M-Pesa STK Push accepted code is usually '0' or success flag
+            if (data.ResponseCode === "0" || data.success === true) {
+              statusBox.innerText = "Prompt Sent! Please enter your PIN on your phone.";
+              statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-emerald-200 bg-emerald-50 text-emerald-700 block";
+              
+              // Empty the brand-specific cart variables upon prompt validation
+              if (activeCheckoutBrand === 'capit') {
+                cartCapIt = [];
+              } else {
+                cartBeads = [];
+              }
+              updateCartUI(activeCheckoutBrand);
+
+              // Clear active cart overlay and close modal view cleanly
+              setTimeout(() => {
+                closeCheckoutModal();
+                checkoutForm.reset();
+              }, 5000);
+
+            } else {
+              throw new Error(data.CustomerMessage || data.errorMessage || "Safaricom rejected payment prompt initiation.");
+            }
+
+          } catch (error) {
+            console.error("Payment Handshake Interrupted:", error);
+            statusBox.innerText = error.message || "Payment request failed.";
+            statusBox.className = "text-center py-2 px-3 text-[10px] tracking-wider uppercase font-semibold border border-red-200 bg-red-50 text-red-600 block";
+            
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Authorize M-Pesa Prompt";
+            submitBtn.className = "w-full bg-zinc-900 text-white py-4 text-xs font-semibold uppercase tracking-[0.25em] hover:bg-[#B4975A] transition-all duration-300 mt-4";
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>
