@@ -1,53 +1,59 @@
-// api/callback.js
+// Using global space so serverless environments (like Vercel) can share the transactions map.
+global.activeTransactions = global.activeTransactions || new Map();
+
 export default async function handler(req, res) {
+  // 1. Safaricom's callback is always a POST request
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
+    res.setHeader('Allow', ['POST']);
+    return res.status(405).json({ message: `Method ${req.method} Not Allowed` });
   }
 
   try {
-    // Safe body parsing just in case
-    let body = req.body;
-    if (typeof body === 'string') {
-      body = JSON.parse(body);
+    const callbackData = req.body.Body?.stkCallback;
+    
+    if (!callbackData) {
+      console.error("[M-Pesa Callback] Invalid payload structure received.");
+      return res.status(400).json({ ResultCode: 1, ResultDesc: "Invalid payload" });
     }
 
-    const callbackData = body.Body.stkCallback;
-    console.log("📩 Raw M-Pesa Callback Received:", JSON.stringify(callbackData, null, 2));
+    const checkoutRequestID = callbackData.CheckoutRequestID;
+    const resultCode = callbackData.ResultCode;
+    const resultDesc = callbackData.ResultDesc;
 
-    const { MerchantRequestID, CheckoutRequestID, ResultCode, ResultDesc } = callbackData;
+    console.log(`[M-Pesa Callback] Received update for ID: ${checkoutRequestID} | ResultCode: ${resultCode}`);
 
-    // ResultCode 0 means the user entered their PIN and the payment went through!
-    if (ResultCode === 0) {
-      const callbackMetadata = callbackData.CallbackMetadata.Item;
+    // ResultCode 0 means the customer entered their PIN and the payment went through!
+    if (resultCode === 0) {
+      const metadataItems = callbackData.CallbackMetadata.Item;
       
-      // Helper function to extract fields from Safaricom's array layout
-      const getMetadataValue = (key) => {
-        const item = callbackMetadata.find(i => i.Name === key);
-        return item ? item.Value : null;
-      };
-
-      const amount = getMetadataValue('Amount');
-      const mpesaReceiptNumber = getMetadataValue('MpesaReceiptNumber');
-      const transactionDate = getMetadataValue('TransactionDate');
-      const phoneNumber = getMetadataValue('PhoneNumber');
-
-      console.log(`✅ PAYMENT SUCCESSFUL!`);
-      console.log(`Receipt: ${mpesaReceiptNumber} | Amount: KES ${amount} | Phone: ${phoneNumber}`);
-
-      // 💡 FUTURE HOME: This is where you will write code to update a database (e.g., Prisma, MongoDB, Supabase)
-      // to mark the user's order as "PAID" using the CheckoutRequestID.
-
+      // Find the M-Pesa Receipt Number (e.g., QGR34RT67Y)
+      const receiptItem = metadataItems.find(item => item.Name === 'MpesaReceiptNumber');
+      const mpesaReceiptNumber = receiptItem ? receiptItem.Value : 'N/A';
+      
+      // Keep track of the success state
+      global.activeTransactions.set(checkoutRequestID, {
+        status: 'success',
+        receipt: mpesaReceiptNumber,
+        message: 'Payment verified successfully.'
+      });
+      
     } else {
-      // User cancelled, timed out, or had insufficient funds
-      console.log(`❌ PAYMENT FAILED OR CANCELLED: Code ${ResultCode} - ${ResultDesc}`);
+      // Payment failed, timed out, or was cancelled by the user (ResultCode 1032)
+      global.activeTransactions.set(checkoutRequestID, {
+        status: 'failed',
+        code: resultCode,
+        message: resultDesc
+      });
     }
 
-    // CRITICAL: You MUST tell Safaricom you got the data. 
-    // If you don't send this exact response, Safaricom will keep spamming your API for 24 hours.
-    return res.status(200).json({ ResultCode: 0, ResultDesc: "Success" });
+    // 2. We must respond to Safaricom with a 200 OK so they know we processed it
+    return res.status(200).json({
+      ResultCode: 0,
+      ResultDesc: "Callback received and processed successfully"
+    });
 
   } catch (error) {
-    console.error("💥 Callback Crash Error:", error);
+    console.error("[M-Pesa Callback Error]:", error);
     return res.status(500).json({ ResultCode: 1, ResultDesc: "Internal Server Error" });
   }
 }
