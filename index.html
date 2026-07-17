@@ -1120,7 +1120,7 @@ async function pollPaymentStatus(checkoutRequestId) {
     // =======================================================
     // H. SECURE CHECKOUT TRANSACTION ENGINE
     // =======================================================
-    function triggerCheckout() {
+    async function triggerCheckout() {
       // Safely refer to our tracked state variable to circumvent uppercase transforms
       const brand = activeCartBrand; 
       const cart = brand === 'capit' ? cartCapIt : cartBeads;
@@ -1133,6 +1133,25 @@ async function pollPaymentStatus(checkoutRequestId) {
       activeCheckoutBrand = brand;
       activeCheckoutQty = cart.reduce((sum, i) => sum + i.quantity, 0);
       activeCheckoutTotal = cart.reduce((sum, i) => sum + ((i.price || 0) * i.quantity), 0);
+      
+// 1. Get your keys from Supabase Dashboard (Project Settings > API)
+    const SUPABASE_URL = 'https://dyvcwnblvqbaalxmyqpt.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5dmN3bmJsdnFiYWFseG15cXB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyNzk0OTgsImV4cCI6MjA5OTg1NTQ5OH0.cw9_PML3dWXT0QoiikznN-RtjfzkRFY-Y_k6kYRg-U4';
+
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/stkpush`, {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',
+            // Add these two lines to fix the 401 error:
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'apikey': SUPABASE_ANON_KEY
+        },
+        body: JSON.stringify({ phone: phone, amount: total })
+    });
+    
+    const result = await response.json();
+    console.log("M-Pesa Response:", result);
+
 
       // Close Cart Drawer
       toggleCart(false);
@@ -1179,10 +1198,19 @@ async function pollPaymentStatus(checkoutRequestId) {
         checkoutForm.addEventListener('submit', async (e) => {
           e.preventDefault();
 
-          const email = document.getElementById('checkoutEmail').value.trim();
-          let phone = document.getElementById('checkoutPhone').value.trim();
+          const emailInput = document.getElementById('checkoutEmail');
+          const phoneInput = document.getElementById('checkoutPhone');
           const submitBtn = document.getElementById('checkoutSubmitBtn');
           const statusBox = document.getElementById('checkoutStatus');
+
+          // Ensure required elements exist
+          if (!emailInput || !phoneInput || !submitBtn || !statusBox) {
+            console.error('Checkout form elements missing');
+            return;
+          }
+
+          const email = emailInput.value.trim();
+          let phone = phoneInput.value.trim();
 
           // Normalize and format the mobile phone number (to format: 254XXXXXXXXX)
           phone = phone.replace(/[^0-9+]/g, ''); // remove non-numeric values (keeping '+')
